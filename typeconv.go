@@ -2,7 +2,7 @@ package typeconv
 
 import "github.com/Sirupsen/logrus"
 
-func ToInt(v interface{}) int64 {
+func Int(v interface{}) int64 {
 	n1, ok := v.(uint64)
 	if ok {
 		return int64(n1)
@@ -16,7 +16,7 @@ func ToInt(v interface{}) int64 {
 	return int64(v.(int))
 }
 
-func ToIntTuple(v interface{}) []int64 {
+func IntTuple(v interface{}) []int64 {
 	if t, ok := v.([]int64); ok {
 		return t
 	}
@@ -31,7 +31,7 @@ func ToIntTuple(v interface{}) []int64 {
 	if t, ok := v.([]interface{}); ok {
 		ret := make([]int64, len(t))
 		for i, v := range t {
-			ret[i] = ToInt(v)
+			ret[i] = Int(v)
 		}
 		return ret
 	}
