@@ -38,6 +38,31 @@ func TestInt(t *testing.T) {
 	testFloatToInt(t)
 }
 
+func TestIntTuple(t *testing.T) {
+	if !isIntTupleEqual(IntTuple([]int{1, 2, 3}), []int64{1, 2, 3}) {
+		t.Fatalf("fail")
+	}
+	if !isIntTupleEqual(IntTuple([]int64{1, 2, 3}), []int64{1, 2, 3}) {
+		t.Fatalf("fail")
+	}
+	if isIntTupleEqual(IntTuple([]int64{1, 2, 3, 4}), []int64{1, 2, 3}) {
+		t.Fatalf("fail")
+	}
+}
+
+func isIntTupleEqual(L1, L2 []int64) bool {
+	if len(L1) != len(L2) {
+		return false
+	}
+
+	for i, v := range L1 {
+		if v != L2[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func testFloatToInt(t *testing.T) {
 	defer func() {
 		recover()
