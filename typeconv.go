@@ -85,3 +85,7 @@ func FloatTuple(v interface{}) []float64 {
 	logrus.Panicf("FloatTuple: can not convert: %T %v", v, v)
 	return nil
 }
+
+func String(v interface{}) string{
+	return v.(string)
+}
