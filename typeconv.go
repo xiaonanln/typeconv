@@ -6,6 +6,10 @@ import (
 	"reflect"
 )
 
+var (
+	stringType = reflect.TypeOf("")
+)
+
 func Int(v interface{}) int64 {
 	if n, ok := v.(uint64); ok {
 		return int64(n)
@@ -90,7 +94,11 @@ func FloatTuple(v interface{}) []float64 {
 }
 
 func String(v interface{}) string {
-	return v.(string)
+	if s, ok := v.(string); ok {
+		return s
+	}
+	val := reflect.ValueOf(v)
+	return val.Convert(stringType).Interface().(string)
 }
 
 // try to convert value to target type, panic if fail
