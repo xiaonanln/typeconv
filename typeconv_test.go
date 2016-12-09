@@ -50,6 +50,18 @@ func TestIntTuple(t *testing.T) {
 	}
 }
 
+type AnotherStringType string
+func TestString(t *testing.T) {
+	s := "abc"
+	if String(interface{}(s)) != "abc" {
+		t.Fatalf("String convert failed")
+	}
+	s2 := AnotherStringType("xxx")
+	if String(s2) != string(s2) {
+		t.Fatalf("String convert failed")
+	}
+}
+
 func isIntTupleEqual(L1, L2 []int64) bool {
 	if len(L1) != len(L2) {
 		return false
