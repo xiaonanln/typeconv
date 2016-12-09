@@ -102,14 +102,15 @@ func String(v interface{}) string {
 }
 
 // try to convert value to target type, panic if fail
-func Convert(val reflect.Value, targetType reflect.Type) reflect.Value {
-	valType := val.Type()
+func Convert(val interface{}, targetType reflect.Type) reflect.Value {
+	value := reflect.ValueOf(val)
+	valType := value.Type()
 	if valType.ConvertibleTo(targetType) {
-		return val.Convert(targetType)
+		return value.Convert(targetType)
 	}
 
 	//fmt.Printf("Value type is %v, emptyInterfaceType is %v, equals %v\n", valType, emptyInterfaceType, valType == emptyInterfaceType)
-	interfaceVal := val.Interface()
+	interfaceVal := value.Interface()
 
 	switch realVal := interfaceVal.(type) {
 	case float64:
@@ -120,10 +121,10 @@ func Convert(val reflect.Value, targetType reflect.Type) reflect.Value {
 		targetSlice := reflect.MakeSlice(targetType, 0, sliceSize)
 		elemType := targetType.Elem()
 		for i := 0; i < sliceSize; i++ {
-			targetSlice = reflect.Append(targetSlice, Convert(val.Index(i), elemType))
+			targetSlice = reflect.Append(targetSlice, Convert(value.Index(i), elemType))
 		}
 		return targetSlice
 	}
 
-	panic(fmt.Errorf("convert from type %v to %v failed: %v", valType, targetType, val))
+	panic(fmt.Errorf("convert from type %v to %v failed: %v", valType, targetType, value))
 }

@@ -1,14 +1,14 @@
 package typeconv
 
 import (
-	"testing"
 	"encoding/json"
 	"log"
+	"testing"
 )
 
 func interfaceVal(v interface{}) interface{} {
 	data, err := json.Marshal(v)
-	if err != nil{
+	if err != nil {
 		panic(err)
 	}
 
@@ -21,7 +21,7 @@ func interfaceVal(v interface{}) interface{} {
 }
 
 func TestInt(t *testing.T) {
-	log.Printf("%T %v => %T %v", 1, 1, interfaceVal(1),interfaceVal(1))
+	log.Printf("%T %v => %T %v", 1, 1, interfaceVal(1), interfaceVal(1))
 
 	if Int(interfaceVal(1)) != 1 {
 		t.Fatalf("Int 1 should not be 1")
@@ -51,6 +51,7 @@ func TestIntTuple(t *testing.T) {
 }
 
 type AnotherStringType string
+
 func TestString(t *testing.T) {
 	s := "abc"
 	if String(interface{}(s)) != "abc" {
@@ -79,7 +80,6 @@ func testFloatToInt(t *testing.T) {
 	defer func() {
 		recover()
 	}()
-	Int(interfaceVal(1.1)) // should panic
+	Int(interfaceVal(1.1))              // should panic
 	t.Fatalf("Int 1.1 should not be 1") // should not goes here
 }
-
