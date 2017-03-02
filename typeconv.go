@@ -101,6 +101,23 @@ func String(v interface{}) string {
 	return val.Convert(stringType).Interface().(string)
 }
 
+func MapStringAnything(v interface{}) map[string]interface{} {
+	if m, ok := v.(map[string]interface{}); ok {
+		return m
+	}
+
+	if m, ok := v.(map[interface{}]interface{}); ok {
+		m2 := make(map[string]interface{}, len(m))
+		for k, v := range m {
+			m2[k.(string)] = v
+		}
+		return m2
+	}
+
+	log.Panicf("MapStringAnything: can not convert: %T %v", v, v)
+	return nil
+}
+
 // try to convert value to target type, panic if fail
 func Convert(val interface{}, targetType reflect.Type) reflect.Value {
 	value := reflect.ValueOf(val)
