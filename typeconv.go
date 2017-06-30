@@ -121,6 +121,9 @@ func MapStringAnything(v interface{}) map[string]interface{} {
 // try to convert value to target type, panic if fail
 func Convert(val interface{}, targetType reflect.Type) reflect.Value {
 	value := reflect.ValueOf(val)
+	if !value.IsValid() {
+		return reflect.Zero(targetType)
+	}
 	valType := value.Type()
 	if valType.ConvertibleTo(targetType) {
 		return value.Convert(targetType)
