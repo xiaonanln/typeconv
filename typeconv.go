@@ -11,27 +11,63 @@ var (
 )
 
 func Int(v interface{}) int64 {
-	if n, ok := v.(uint64); ok {
-		return int64(n)
-	}
-
-	if n, ok := v.(int64); ok {
+	switch n := v.(type) {
+	case int64:
 		return n
-	}
-
-	if n, ok := v.(int); ok {
+	case uint64:
 		return int64(n)
-	}
-
-	if n, ok := v.(float64); ok {
-		if float64(int64(n)) != n {
-			log.Panicf("Int: can not convert %v to int64", n)
-		}
-
+	case int:
 		return int64(n)
+	case int32:
+		return int64(n)
+	case uint32:
+		return int64(n)
+	case int16:
+		return int64(n)
+	case uint16:
+		return int64(n)
+	case int8:
+		return int64(n)
+	case uint8:
+		return int64(n)
+	case float32:
+		return int64(n)
+	case float64:
+		return int64(n)
+	default:
+		log.Panicf("Int: can not convert: %T %v", v, v)
+		return 0
 	}
-	log.Panicf("Int: can not convert: %T %v", v, v)
-	return 0
+}
+
+func Float(v interface{}) float64 {
+	switch n := v.(type) {
+	case int64:
+		return float64(n)
+	case uint64:
+		return float64(n)
+	case int:
+		return float64(n)
+	case int32:
+		return float64(n)
+	case uint32:
+		return float64(n)
+	case int16:
+		return float64(n)
+	case uint16:
+		return float64(n)
+	case int8:
+		return float64(n)
+	case uint8:
+		return float64(n)
+	case float32:
+		return float64(n)
+	case float64:
+		return n
+	default:
+		log.Panicf("Float: can not convert: %T %v", v, v)
+		return 0
+	}
 }
 
 func IntTuple(v interface{}) []int64 {
@@ -55,18 +91,6 @@ func IntTuple(v interface{}) []int64 {
 	}
 	log.Panicf("IntTuple: can not convert: %T %v", v, v)
 	return nil
-}
-
-func Float(v interface{}) float64 {
-	if f, ok := v.(float64); ok {
-		return f
-	}
-	if f, ok := v.(float32); ok {
-		return float64(f)
-	}
-
-	log.Panicf("Float: can not convert: %T %v", v, v)
-	return 0.0
 }
 
 func FloatTuple(v interface{}) []float64 {

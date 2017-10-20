@@ -77,9 +77,5 @@ func isIntTupleEqual(L1, L2 []int64) bool {
 }
 
 func testFloatToInt(t *testing.T) {
-	defer func() {
-		recover()
-	}()
-	Int(interfaceVal(1.1))              // should panic
-	t.Fatalf("Int 1.1 should not be 1") // should not goes here
+	Int(interfaceVal(1.1)) // should panic
 }
